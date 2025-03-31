@@ -1,0 +1,14 @@
+{
+  "name": "discord-userapp",
+  "version": "1.0.0",
+  "description": "<p align=\"center\">✨ <strong>Generated with <a href=\"https://robojs.dev/create-robo\">create-robo</a> magic!</strong> ✨</p>",
+  "main": "src/main.js",
+  "scripts": {
+    "test": "node ."
+  },
+  "author": "tomanw8736",
+  "license": "ISC",
+  "dependencies": {
+    "discord.js": "^14.18.0"
+  }
+}
