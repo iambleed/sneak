@@ -11,6 +11,7 @@ const commands = [];
 commandFiles.forEach(file => {
     const command = require(path.join(__dirname, 'commands', file));
     commands.push(command.toJSON()); // Convert the command to JSON
+    console.log(`✅ Loaded command: ${command.toJSON().name}`);
 });
 
 // Register the commands with Discord API

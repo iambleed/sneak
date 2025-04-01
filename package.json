@@ -4,7 +4,8 @@
   "description": "<p align=\"center\">✨ <strong>Generated with <a href=\"https://robojs.dev/create-robo\">create-robo</a> magic!</strong> ✨</p>",
   "main": "src/main.js",
   "scripts": {
-    "test": "node ."
+    "run": "node src/main.js",
+    "deploy": "node src/deploy-commands.js"
   },
   "author": "tomanw8736",
   "license": "ISC",
