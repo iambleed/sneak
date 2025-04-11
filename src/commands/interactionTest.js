@@ -1,8 +1,8 @@
 const { SlashCommandBuilder } = require('discord.js');
 
 const testCommand = new SlashCommandBuilder()
-.setName('test')
-.setDescription('Test command')
+.setName('interactiontest')
+.setDescription('Interaction Test')
 .setContexts(['PrivateChannel', 'Guild', 'BotDM']);
 
 module.exports = testCommand;

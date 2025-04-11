@@ -2,15 +2,12 @@ require("dotenv").config();
 const {
   Client,
   GatewayIntentBits,
-  Events,
   EmbedBuilder,
   ButtonBuilder,
   ButtonStyle,
   ActionRowBuilder,
   StringSelectMenuBuilder,
-  StringSelectMenuComponent,
   StringSelectMenuOptionBuilder,
-  ActionRow,
 } = require("discord.js");
 
 const client = new Client({
@@ -25,16 +22,14 @@ const client = new Client({
 client.once("ready", () => {
   console.log(`✅ Logged in as ${client.user.tag}`);
 });
-let logChannel = null;
-let isLogging = false;
 
 client.on("interactionCreate", async (interaction) => {
   if (!interaction.isChatInputCommand()) return;
 
   // Name: Test command
-  // ID: test
+  // ID: interactionTest
   // Description: Check if the bots running
-  if (interaction.commandName === "test") {
+  if (interaction.commandName === "interactiontest") {
     const testButton = new ButtonBuilder()
       .setCustomId("test")
       .setLabel("Test")
@@ -93,22 +88,37 @@ client.on("interactionCreate", async (interaction) => {
     }
   }
 
-  // Name: Are they gay?
-  // ID: aretheygay
-  // Description: Are they gay? let's figure it out!
-  if (interaction.commandName === "aretheygay") {
-    const target = interaction.options.getUser("target");
-    await interaction.reply({ content: `${target} is gay!` });
-  }
+  // Name: Base64 command
+  // ID: base64
+  // Description: Allows the user to encode/decode text using base64
+  if (interaction.commandName === "base64") {
 
-  // Name: penis command
-  // ID: penis
-  // Description: generates a unicode penis of random length
-  if (interaction.commandName === "penis") {
-    const length = Math.floor(Math.random() * 10) + 1;
-    const penisUnicode = `8${"=".repeat(length)}D`
+    // getting the options
+    const mode = interaction.options.getString('mode');
+    let content = interaction.options.getString('content');
 
-    await interaction.reply({ content: `Your penis length is: ${penisUnicode}` });
+    if (mode === "encode") {
+      content = Buffer.from(content).toString('base64');
+    }
+    else if (mode === "decode") {
+      content = Buffer.from(content, 'base64').toString('ascii');
+    }
+
+    // making the embed
+    const testEmbed = new EmbedBuilder().setTitle("Sneak Base64")
+      .setDescription('Base64 Results')
+      .addFields(
+        {
+          name: 'Mode:',
+          value: mode
+        },
+        {
+          name: 'Content:',
+          value: "`" + content + "`"
+        }
+      );
+
+    await interaction.reply({ embeds: [testEmbed] });
   }
 
   // Name: Help command
@@ -116,11 +126,9 @@ client.on("interactionCreate", async (interaction) => {
   // Description: Sends an invite to our discord server for help
   if (interaction.commandName === "help") {
     // Embed making
-    const helpEmbed = new EmbedBuilder().setTitle("Reaper UserApp")
+    const helpEmbed = new EmbedBuilder().setTitle("Sneak UserApp")
       .setDescription(`
             Website: https://tomanw.rip
-            Dev Discord: https://discord.gg/MuS5juK8pv
-            Chat Hub: https://discord.gg/YEvVrbcFgs
         `)
         .addFields(
             {
@@ -129,13 +137,13 @@ client.on("interactionCreate", async (interaction) => {
                 inline: false
             },
             {
-                name: '`aretheygay [user]`',
-                value: 'Totally isnt rigged, shitpost command. Returns "[user] is gay"',
+                name: '`base64 [encode/decode] [content]`',
+                value: 'Encode/Decode text using base64 encryption',
                 inline: false
             },
             {
-                name: '`test`',
-                value: 'Sends a test of: embeds, select menus and buttons',
+                name: '`interactiontest`',
+                value: 'Sends a test of: select menus and buttons',
                 inline: false
             },
         );
